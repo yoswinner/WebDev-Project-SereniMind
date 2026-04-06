@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  Course/Topic : BCSE203E - Web Programming | Digital Assignment - II
+  Project Name : SereniMind — HTML Structure
+  Description  : Semantic HTML5 document structure for SereniMind,
+                 a student mental wellness companion web app.
+  
+  Sections (in page order):
+    1. <head>        — meta tags, Google Fonts, stylesheet link
+    2. Ambient BG    — fixed blurred gradient blobs (decorative)
+    3. <nav>         — sticky top bar; logo + anchor links
+    4. Hero          — full-screen landing area with CTA buttons
+    5. Affirmation   — daily motivational quote generator
+    6. Breathing     — animated circle-based breathing guide
+    7. Focus Timer   — Pomodoro SVG countdown timer
+    8. Mood Tracker  — emoji mood picker + 7-day history grid
+    9. <footer>      — attribution line
+  ============================================================
+-->
+<html lang="en">
+<head>
+    <!-- Character encoding must be first inside <head> -->
+    <meta charset="UTF-8">
+
+    <!-- Responsive viewport: width matches device, prevents auto zoom on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO meta description shown in search engine result snippets -->
+    <meta name="description"
+        content="SereniMind — Your personal mental wellness companion. Reduce stress, improve focus, and maintain emotional well-being.">
+
+    <!-- Browser tab title -->
+    <title>SereniMind — Mental Wellness Companion</title>
+
+    <!-- Inline SVG favicon: brain emoji encoded as a data URI so no image file is needed -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
+    <!-- Google Fonts: Poppins loaded for weights 300–700 (display=swap prevents invisible text) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ============================================================
+         AMBIENT BACKGROUND — Three large blurred gradient orbs that
+         float slowly behind all content using CSS keyframe animation.
+         aria-hidden="true" hides this purely decorative element from
+         screen readers.
+         ============================================================ -->
+    <div class="ambient-bg" aria-hidden="true">
+        <div class="blob blob-1"></div> <!-- Purple orb — top left -->
+        <div class="blob blob-2"></div> <!-- Teal orb   — middle right -->
+        <div class="blob blob-3"></div> <!-- Blue orb   — bottom center -->
+    </div>
+
+    <!-- ============================================================
+         NAVIGATION — Fixed top bar with the brand logo on the left
+         and anchor links on the right.
+         The hamburger button (.nav-toggle) is revealed via CSS only
+         on mobile viewports; JS toggles the '.open' class to show/hide
+         the stacked link menu.
+         ============================================================ -->
+    <nav id="navbar">
+        <div class="nav-container">
+
+            <!-- Logo: emoji and text are in *separate* spans so only the
+                 text span gets the gradient clip. If the emoji were inside
+                 the gradient span, -webkit-text-fill-color:transparent
+                 would make it appear black/invisible. -->
+            <a href="#hero" class="nav-logo">
+                <span class="logo-emoji">🧠</span>
+                <span class="logo-text">SereniMind</span>
+            </a>
+
+            <!-- Navigation links — flex row on desktop, slide-down on mobile -->
+            <div class="nav-links" id="navLinks">
+                <a href="#affirm"  class="nav-link">✨ Affirm</a>
+                <a href="#breathe" class="nav-link">🫁 Breathe</a>
+                <a href="#focus"   class="nav-link">⏱️ Focus</a>
+                <a href="#mood"    class="nav-link">💭 Mood</a>
+            </div>
+
+            <!-- Hamburger button: three <span> lines styled as bars in CSS.
+                 JS adds/removes '.open' on .nav-links when this is tapped. -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         HERO SECTION — Full-screen landing view.
+         Classes: .section gives it min-height:100vh + flex centering.
+                  .hero-section overrides padding to be symmetric so
+                  the content block is truly vertically centred.
+         ============================================================ -->
+    <section id="hero" class="section hero-section">
+
+        <!-- Eight emoji decorations positioned absolutely with CSS.
+             They loop a slow float animation at low opacity (0.15).
+             aria-hidden prevents screen readers from reading them. -->
+        <div class="hero-float-emojis" aria-hidden="true">
+            <span class="float-emoji fe-1">🌱</span>
+            <span class="float-emoji fe-2">💜</span>
+            <span class="float-emoji fe-3">⭐</span>
+            <span class="float-emoji fe-4">🌙</span>
+            <span class="float-emoji fe-5">🧘</span>
+            <span class="float-emoji fe-6">✨</span>
+            <span class="float-emoji fe-7">🌸</span>
+            <span class="float-emoji fe-8">☁️</span>
+        </div>
+
+        <!-- Main hero content block — .reveal starts invisible;
+             IntersectionObserver in script.js adds '.visible' to fade it in -->
+        <div class="hero-content reveal">
+
+            <!-- <h1> is the only h1 on the page (SEO best practice).
+                 .gradient-text applies an animated shifting gradient via CSS. -->
+            <h1 class="hero-title"><span class="gradient-text">SereniMind</span></h1>
+
+            <!-- Pill-shaped badge with a subtle glow pulse animation -->
+            <div class="hero-badge">✨ Your calm space, always open</div>
+
+            <!-- Subtitle and description paragraphs -->
+            <p class="hero-subtitle">Your personal mental wellness companion</p>
+            <p class="hero-desc">Reduce stress, improve focus, and nurture your emotional well‑being — all in one calm
+                space.</p>
+
+            <!-- Two CTA buttons: .btn-primary (filled) and .btn-outline (bordered) -->
+            <div class="hero-actions">
+                <a href="#breathe" class="btn btn-primary">🫁 Start Breathing</a>
+                <a href="#mood"    class="btn btn-outline">💭 Track Mood</a>
+            </div>
+        </div>
+
+        <!-- Bouncing dot + "SCROLL" label hints the user to scroll down.
+             Positioned absolutely at the bottom-centre of the hero section. -->
+        <div class="scroll-hint" aria-hidden="true">
+            <span class="scroll-dot"></span>
+            <span class="scroll-txt">scroll</span>
+        </div>
+
+    </section>
+
+    <!-- ============================================================
+         AFFIRMATION GENERATOR — Placed near the top so users see a
+         positive quote as soon as they scroll past the hero.
+         script.js: newAffirmation() picks a random quote from an array
+         and stores it in localStorage so it persists on page reload.
+         ============================================================ -->
+    <section id="affirm" class="section">
+        <div class="section-container">
+            <!-- .title-emoji resets -webkit-text-fill-color so the emoji
+                 stays colourful instead of being clipped to transparent -->
+            <h2 class="section-title reveal"><span class="title-emoji">✨</span> Daily Affirmation</h2>
+            <p class="section-desc reveal">A positive thought to carry with you today</p>
+
+            <div class="affirm-card card reveal">
+                <!-- Decorative stars (aria-hidden — purely visual) -->
+                <div class="affirm-stars" aria-hidden="true">⭐ ⭐ ⭐</div>
+
+                <!-- Quote container — JS adds/removes '.fade' class to replay
+                     the CSS fadeSlide animation each time a new quote loads -->
+                <div class="affirm-quote" id="affirmQuote">
+                    <span class="affirm-mark">"</span>
+                    <!-- #affirmText is updated by newAffirmation() in script.js -->
+                    <p id="affirmText">Click below to receive your affirmation</p>
+                    <span class="affirm-mark">"</span>
+                </div>
+
+                <!-- Triggers newAffirmation() on click -->
+                <button class="btn btn-primary btn-lg" id="affirmBtn" onclick="newAffirmation()">🔮 New
+                    Affirmation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         BREATHING EXERCISE — Animated circle that expands/contracts
+         to guide Inhale → Hold → Exhale cycles.
+         Timing is user-configurable (1–10 s per phase) via +/− buttons.
+         The breathing loop uses nested setTimeout calls in script.js.
+         ============================================================ -->
+    <section id="breathe" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal"><span class="title-emoji">🫁</span> Breathing Exercise</h2>
+            <p class="section-desc reveal">Follow the circle. Calm your mind.</p>
+
+            <div class="breathe-card card reveal">
+
+                <!-- Circle wrapper: positions the ring and circle on top of each other -->
+                <div class="breathe-circle-wrapper">
+                    <!-- Outer ring: glows and pulses during active breathing via '.active' class -->
+                    <div class="breathe-ring" id="breatheRing"></div>
+
+                    <!-- Inner circle: JS changes its className (inhale/hold/exhale)
+                         to trigger CSS transitions that expand or shrink it -->
+                    <div class="breathe-circle" id="breatheCircle">
+                        <!-- Phase instruction text ("Inhale 🫁", "Hold 🌟", "Exhale 💨") -->
+                        <span class="breathe-text"  id="breatheText">Start</span>
+                        <!-- Per-second countdown number shown during each phase -->
+                        <span class="breathe-timer" id="breatheTimer"></span>
+                    </div>
+                </div>
+
+                <!-- Controls row: timing sliders + start/pause button -->
+                <div class="breathe-controls">
+
+                    <!-- Three timing groups: Inhale, Hold, Exhale -->
+                    <div class="breathe-timing">
+
+                        <!-- Each timing-group has a label and a +/− stepper.
+                             onclick calls adjustTiming(phase, delta) in script.js -->
+                        <div class="timing-group">
+                            <label>Inhale</label>
+                            <div class="timing-adjust">
+                                <button class="adj-btn" onclick="adjustTiming('inhale', -1)">−</button>
+                                <span id="inhaleTime">4</span>s <!-- default: 4 seconds -->
+                                <button class="adj-btn" onclick="adjustTiming('inhale', 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="timing-group">
+                            <label>Hold</label>
+                            <div class="timing-adjust">
+                                <button class="adj-btn" onclick="adjustTiming('hold', -1)">−</button>
+                                <span id="holdTime">4</span>s <!-- default: 4 seconds -->
+                                <button class="adj-btn" onclick="adjustTiming('hold', 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="timing-group">
+                            <label>Exhale</label>
+                            <div class="timing-adjust">
+                                <button class="adj-btn" onclick="adjustTiming('exhale', -1)">−</button>
+                                <span id="exhaleTime">6</span>s <!-- default: 6 seconds (longer exhale is calming) -->
+                                <button class="adj-btn" onclick="adjustTiming('exhale', 1)">+</button>
+                            </div>
+                        </div>
+
+                    </div><!-- /.breathe-timing -->
+
+                    <!-- Main Start/Pause button — JS toggles its text between "▶ Start" and "⏸ Pause" -->
+                    <button class="btn btn-primary btn-lg" id="breatheBtn" onclick="toggleBreathing()">▶ Start</button>
+
+                </div><!-- /.breathe-controls -->
+
+            </div><!-- /.breathe-card -->
+        </div>
+    </section>
+
+    <!-- ============================================================
+         POMODORO FOCUS TIMER — Standard 25/5/15-minute Pomodoro
+         technique implementation.
+         - An SVG circle draws/undraws to show time progress.
+         - Auto-switches between Focus → Break after each session.
+         - Every 4th focus block triggers a Long Break.
+         - Web Audio API plays a gentle 528 Hz tone on completion.
+         ============================================================ -->
+    <section id="focus" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal"><span class="title-emoji">⏱️</span> Focus Timer</h2>
+            <p class="section-desc reveal">Stay productive with the Pomodoro technique</p>
+
+            <div class="timer-card card reveal">
+
+                <!-- SVG Circular Progress Ring
+                     Two overlapping circles with the same cx/cy/r:
+                       .timer-track — static faint background ring
+                       .timer-fill  — animated foreground ring
+                     script.js controls stroke-dashoffset on #timerFill
+                     to "drain" the circle as time passes. -->
+                <div class="timer-display">
+                    <svg class="timer-svg" viewBox="0 0 260 260">
+                        <!-- Background track ring: r=110, faint white -->
+                        <circle cx="130" cy="130" r="110" class="timer-track"/>
+                        <!-- Progress ring: JS updates strokeDashoffset live.
+                             id="timerFill" is targeted by updateTimerProgress() -->
+                        <circle cx="130" cy="130" r="110" class="timer-fill" id="timerFill"/>
+                    </svg>
+
+                    <!-- Text overlay centred inside the SVG circle using absolute positioning -->
+                    <div class="timer-inner">
+                        <span class="timer-label"   id="timerLabel">Focus Time</span>  <!-- mode name -->
+                        <span class="timer-digits"  id="timerDigits">25:00</span>       <!-- MM:SS countdown -->
+                        <span class="timer-session" id="timerSession">Session 1</span> <!-- session counter -->
+                    </div>
+                </div>
+
+                <!-- Mode switcher buttons — data-minutes and data-type are read by
+                     setTimerMode() to know which duration and mode to apply -->
+                <div class="timer-modes">
+                    <!-- 'active' class highlights the currently selected mode -->
+                    <button class="mode-btn active" data-minutes="25" data-type="focus"
+                        onclick="setTimerMode(this)">🎯 Focus (25m)</button>
+                    <button class="mode-btn" data-minutes="5" data-type="break"
+                        onclick="setTimerMode(this)">☕ Break (5m)</button>
+                    <button class="mode-btn" data-minutes="15" data-type="longbreak"
+                        onclick="setTimerMode(this)">🌿 Long Break (15m)</button>
+                </div>
+
+                <!-- Timer action buttons: Reset | Start/Pause | Skip -->
+                <div class="timer-controls">
+                    <button class="btn btn-icon" onclick="resetTimer()" title="Reset">↺</button>
+                    <!-- #timerBtn label toggled by JS between ▶ Start / ⏸ Pause / ▶ Resume -->
+                    <button class="btn btn-primary btn-lg" id="timerBtn" onclick="toggleTimer()">▶ Start</button>
+                    <button class="btn btn-icon" onclick="skipTimer()" title="Skip">⏭</button>
+                </div>
+
+            </div><!-- /.timer-card -->
+        </div>
+    </section>
+
+    <!-- ============================================================
+         MOOD TRACKER — Emoji-based daily mood logger.
+         - Clicking an emoji calls selectMood(this).
+         - User can optionally type a reason (saved as a comment).
+         - saveMood() serialises the entry to localStorage keyed by date.
+         - renderMoodWeek() builds the 7-day grid from stored data.
+         - Hovering a day-pill shows its comment via CSS ::after tooltip.
+         - Weekly average is computed from MOOD_SCORES in script.js.
+         ============================================================ -->
+    <section id="mood" class="section">
+        <div class="section-container">
+            <h2 class="section-title reveal"><span class="title-emoji">💭</span> Mood Tracker</h2>
+            <p class="section-desc reveal">How are you feeling today?</p>
+
+            <div class="mood-card card reveal">
+
+                <!-- Emoji grid — each button carries data-mood (machine key)
+                     and data-label (human-readable name) used by script.js -->
+                <div class="mood-selector" id="moodSelector">
+                    <button class="mood-emoji" data-mood="happy"    data-label="Happy"   onclick="selectMood(this)">😊</button>
+                    <button class="mood-emoji" data-mood="calm"     data-label="Calm"    onclick="selectMood(this)">😌</button>
+                    <button class="mood-emoji" data-mood="neutral"  data-label="Neutral" onclick="selectMood(this)">😐</button>
+                    <button class="mood-emoji" data-mood="sad"      data-label="Sad"     onclick="selectMood(this)">😔</button>
+                    <button class="mood-emoji" data-mood="stressed" data-label="Stressed" onclick="selectMood(this)">😰</button>
+                    <button class="mood-emoji" data-mood="angry"    data-label="Angry"   onclick="selectMood(this)">😡</button>
+                    <button class="mood-emoji" data-mood="tired"    data-label="Tired"   onclick="selectMood(this)">😴</button>
+                    <button class="mood-emoji" data-mood="excited"  data-label="Excited" onclick="selectMood(this)">🤩</button>
+                </div>
+
+                <!-- Confirmation text — updated by selectMood() and saveMood() -->
+                <div class="mood-selected" id="moodSelected">
+                    <p>Select your mood above</p>
+                </div>
+
+                <!-- Optional reason textarea (initially hidden; revealed by selectMood()).
+                     maxlength="120" enforced in HTML and counts displayed via JS.
+                     The comment is saved alongside the mood in localStorage. -->
+                <div class="mood-comment-wrap" id="moodCommentWrap" style="display:none;">
+                    <textarea id="moodComment" class="mood-comment-input" maxlength="120"
+                        placeholder="Any reason? (optional — hover to see later) 💬"></textarea>
+                    <!-- Live character counter injected by the 'input' event listener -->
+                    <span class="mood-comment-count" id="moodCommentCount">0/120</span>
+                </div>
+
+                <!-- Save button: disabled until an emoji is tapped;
+                     calls saveMood() which writes to localStorage -->
+                <button class="btn btn-primary" id="saveMoodBtn" onclick="saveMood()" disabled>
+                    💾 Save Today's Mood
+                </button>
+
+                <!-- 7-day history grid — populated entirely by renderMoodWeek() in script.js.
+                     Each .mood-day pill is injected as a template literal string.
+                     The weekly average emoji + score appear in #moodAvg. -->
+                <div class="mood-history">
+                    <div class="mood-week-header">
+                        <h3>📅 Your Week</h3>
+                        <!-- Average emoji + numeric score rendered by renderMoodWeek() -->
+                        <div class="mood-avg" id="moodAvg"></div>
+                    </div>
+                    <!-- Grid of 7 day-pill divs injected by JS -->
+                    <div class="mood-week" id="moodWeek"></div>
+                    <!-- Motivational comment based on average mood score -->
+                    <p class="mood-avg-comment" id="moodAvgComment"></p>
+                </div>
+
+            </div><!-- /.mood-card -->
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER — Simple attribution row.
+         ============================================================ -->
+    <footer class="footer">
+        <!-- Decorative emoji strip (aria-hidden to skip screen readers) -->
+        <div class="footer-emojis" aria-hidden="true">🌱 💜 🧘 ✨ 🌙</div>
+        <p>Made with 💜 by <strong>SereniMind</strong></p>
+        <p class="footer-sub">Your mental wellness matters. Take it one breath at a time.</p>
+    </footer>
+
+    <!-- Script loaded at the end of <body> so all DOM elements above
+         are already parsed and available when script.js runs -->
+    <script src="script.js"></script>
+
+</body>
+</html>

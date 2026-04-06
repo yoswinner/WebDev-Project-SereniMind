@@ -1,0 +1,1311 @@
+/* ============================================================
+   SERENIMIND — Stylesheet v2
+   Aurora dark UI | Glassmorphism | Scroll-reveal animations
+   ============================================================ */
+
+/* ── 1. CSS VARIABLES ──────────────────────────────────────── */
+:root {
+    --bg: #080818;
+    --bg-card: rgba(14, 14, 38, 0.72);
+    --bg-card-h: rgba(18, 18, 48, 0.88);
+
+    --purple: #7c3aed;
+    --purple-lt: #a855f7;
+    --purple-glow: rgba(124, 58, 237, 0.4);
+    --blue: #3b82f6;
+    --teal: #06b6d4;
+    --teal-glow: rgba(6, 182, 212, 0.3);
+    --pink: #ec4899;
+    --green: #10b981;
+
+    --text: #eeeeff;
+    --text-2: rgba(238, 238, 255, 0.58);
+    --text-3: rgba(238, 238, 255, 0.32);
+
+    --border: rgba(124, 58, 237, 0.22);
+    --radius: 22px;
+    --radius-sm: 12px;
+    --trans: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font: 'Poppins', system-ui, sans-serif;
+}
+
+/* ── 2. RESET & BASE ───────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+    /* nav height — fixes cut-off on anchor jump */
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ── 3. AMBIENT BLOBS ──────────────────────────────────────── */
+.ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3;
+    animation: blobFloat 22s ease-in-out infinite;
+}
+
+.blob-1 {
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, var(--purple), transparent 70%);
+    top: -8%;
+    left: -8%;
+}
+
+.blob-2 {
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, var(--teal), transparent 70%);
+    top: 48%;
+    right: -6%;
+    animation-delay: -8s;
+}
+
+.blob-3 {
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, var(--blue), transparent 70%);
+    bottom: -4%;
+    left: 28%;
+    animation-delay: -15s;
+}
+
+@keyframes blobFloat {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(45px, -28px) scale(1.08);
+    }
+
+    50% {
+        transform: translate(-22px, 38px) scale(0.94);
+    }
+
+    75% {
+        transform: translate(28px, 18px) scale(1.04);
+    }
+}
+
+/* ── 4. NAVIGATION ─────────────────────────────────────────── */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(8, 8, 24, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: var(--trans);
+}
+
+.nav-container {
+    width: 100%;
+    padding: 0 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+/* Logo: emoji is plain text (no gradient), text gets the gradient */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.logo-emoji {
+    font-size: 1.5rem;
+    /* No gradient clipping — plain color so it's never blacked out */
+    color: var(--text);
+    -webkit-text-fill-color: initial;
+}
+
+.logo-text {
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    transition: var(--trans);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text);
+    background: rgba(124, 58, 237, 0.18);
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: var(--trans);
+}
+
+/* ── 5. SECTIONS ───────────────────────────────────────────── */
+.section {
+    position: relative;
+    z-index: 1;
+    /* Subtract the 72px nav height so it fits exactly in the visible space */
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Symmetrical padding ensures flexbox centers it perfectly */
+    padding: 2rem;
+}
+
+.section-container {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Emoji inside gradient headings must opt-out of the gradient clip,
+   otherwise -webkit-text-fill-color:transparent blacks them out */
+.title-emoji {
+    -webkit-text-fill-color: initial;
+    /* restore natural emoji color */
+    background: none;
+    background-clip: initial;
+    -webkit-background-clip: initial;
+}
+
+.section-desc {
+    color: var(--text-2);
+    font-size: 1.05rem;
+    margin-bottom: 2.2rem;
+}
+
+/* ── 6. GLASSMORPHISM CARD ─────────────────────────────────── */
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 50px rgba(124, 58, 237, 0.12);
+    transition: var(--trans);
+}
+
+.card:hover {
+    background: var(--bg-card-h);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55), 0 0 70px rgba(124, 58, 237, 0.2);
+}
+
+/* ── 7. BUTTONS ────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--purple);
+    color: var(--purple-lt);
+}
+
+.btn-outline:hover {
+    background: rgba(124, 58, 237, 0.12);
+    transform: translateY(-3px);
+}
+
+.btn-lg {
+    padding: 16px 38px;
+    font-size: 1.1rem;
+}
+
+.btn-icon {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    font-size: 1.3rem;
+    color: var(--text-2);
+}
+
+.btn-icon:hover {
+    background: rgba(124, 58, 237, 0.18);
+    color: var(--text);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ── 8. SCROLL-REVEAL ANIMATIONS ──────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+    transition-delay: 0.3s;
+}
+
+.reveal-delay-4 {
+    transition-delay: 0.4s;
+}
+
+/* ── 9. HERO SECTION ───────────────────────────────────────── */
+/* Hero overrides section padding to be fully symmetric */
+.hero-section {
+    padding-top: 70px;
+    /* exact nav height — just clears the fixed bar */
+    padding-bottom: 70px;
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 660px;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    background: rgba(124, 58, 237, 0.12);
+    font-size: 0.85rem;
+    color: var(--text-2);
+    margin-top: 0.6rem;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.5px;
+    animation: badgePulse 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 rgba(124, 58, 237, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 18px rgba(124, 58, 237, 0.3);
+    }
+}
+
+.hero-title {
+    font-size: 4.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200%;
+    animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.hero-subtitle {
+    font-size: 1.35rem;
+    color: var(--text-2);
+    margin-bottom: 0.8rem;
+    font-weight: 300;
+}
+
+.hero-desc {
+    color: var(--text-3);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.85;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Scroll hint */
+.scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: scrollHintBounce 2s ease-in-out infinite;
+}
+
+.scroll-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    box-shadow: 0 0 10px var(--purple-glow);
+}
+
+.scroll-txt {
+    font-size: 0.65rem;
+    color: var(--text-3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes scrollHintBounce {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+/* ── 10. FLOATING EMOJI DECORATIONS ────────────────────────── */
+.hero-float-emojis {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.float-emoji {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.15;
+    animation: floatUp 8s ease-in-out infinite;
+    user-select: none;
+}
+
+/* Individual placements + staggered delays */
+.fe-1 {
+    top: 20%;
+    left: 8%;
+    animation-delay: 0s;
+    font-size: 2.4rem;
+}
+
+.fe-2 {
+    top: 40%;
+    left: 92%;
+    animation-delay: -2s;
+    font-size: 1.8rem;
+}
+
+.fe-3 {
+    top: 65%;
+    left: 5%;
+    animation-delay: -4s;
+    font-size: 2rem;
+}
+
+.fe-4 {
+    top: 15%;
+    left: 80%;
+    animation-delay: -1s;
+    font-size: 1.6rem;
+}
+
+.fe-5 {
+    top: 75%;
+    left: 82%;
+    animation-delay: -3s;
+    font-size: 2.5rem;
+}
+
+.fe-6 {
+    top: 55%;
+    left: 15%;
+    animation-delay: -5.5s;
+    font-size: 1.4rem;
+}
+
+.fe-7 {
+    top: 30%;
+    left: 50%;
+    animation-delay: -3.5s;
+    font-size: 1.8rem;
+}
+
+.fe-8 {
+    top: 85%;
+    left: 40%;
+    animation-delay: -6s;
+    font-size: 2.2rem;
+}
+
+@keyframes floatUp {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.15;
+    }
+
+    30% {
+        transform: translateY(-20px) rotate(5deg);
+        opacity: 0.25;
+    }
+
+    60% {
+        transform: translateY(8px) rotate(-4deg);
+        opacity: 0.12;
+    }
+}
+
+/* ── 11. FEATURE CHIPS STRIP ───────────────────────────────── */
+.features-strip {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1.5rem 2rem 3rem;
+}
+
+.feature-chip {
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.28);
+    color: var(--text-2);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--trans);
+    cursor: default;
+}
+
+.feature-chip:hover {
+    background: rgba(124, 58, 237, 0.22);
+    color: var(--text);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.2);
+}
+
+/* ── 12. AFFIRMATION ───────────────────────────────────────── */
+.affirm-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle shimmer stripe */
+.affirm-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(124, 58, 237, 0.06) 60%, transparent 80%);
+    animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.affirm-stars {
+    font-size: 1rem;
+    letter-spacing: 6px;
+    opacity: 0.5;
+}
+
+.affirm-quote {
+    text-align: center;
+    padding: 1rem 0.5rem;
+}
+
+.affirm-mark {
+    font-size: 3.5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.6;
+    font-family: Georgia, serif;
+    display: block;
+}
+
+.affirm-quote p {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--text);
+    font-style: italic;
+    margin: 0.4rem 0;
+}
+
+.affirm-quote.fade {
+    animation: fadeSlide 0.6s ease;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── 13. BREATHING EXERCISE ────────────────────────────────── */
+.breathe-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.breathe-circle-wrapper {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.breathe-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(124, 58, 237, 0.18);
+    transition: border-color 1s ease, box-shadow 1s ease;
+}
+
+.breathe-ring.active {
+    border-color: rgba(124, 58, 237, 0.55);
+    box-shadow: 0 0 50px var(--purple-glow), inset 0 0 50px rgba(124, 58, 237, 0.08);
+    animation: ringPulse 4s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 40px var(--purple-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 80px rgba(6, 182, 212, 0.35);
+    }
+}
+
+.breathe-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.55), rgba(6, 182, 212, 0.2));
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 4s ease-in-out;
+    z-index: 2;
+}
+
+.breathe-circle.inhale {
+    width: 190px;
+    height: 190px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.72), rgba(6, 182, 212, 0.35));
+    box-shadow: 0 0 70px rgba(124, 58, 237, 0.55), 0 0 110px rgba(6, 182, 212, 0.2);
+}
+
+.breathe-circle.hold {
+    width: 190px;
+    height: 190px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.65), rgba(6, 182, 212, 0.3));
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.45);
+}
+
+.breathe-circle.exhale {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.4), rgba(124, 58, 237, 0.15));
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.3);
+}
+
+.breathe-text {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.breathe-timer {
+    color: var(--text-2);
+    font-size: 0.78rem;
+    margin-top: 2px;
+}
+
+.breathe-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.breathe-timing {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.timing-group {
+    text-align: center;
+}
+
+.timing-group label {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--text-2);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.timing-adjust {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+}
+
+.adj-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--trans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font);
+}
+
+.adj-btn:hover {
+    background: rgba(124, 58, 237, 0.4);
+}
+
+.timing-adjust span {
+    font-weight: 600;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* ── 14. POMODORO TIMER ────────────────────────────────────── */
+.timer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.timer-display {
+    position: relative;
+    width: 260px;
+    height: 260px;
+}
+
+.timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+/* circumference for r=110: 2*PI*110 ≈ 691.15 */
+.timer-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 8;
+}
+
+.timer-fill {
+    fill: none;
+    stroke: var(--purple-lt);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 691.15;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear, stroke 0.5s ease;
+    filter: drop-shadow(0 0 8px var(--purple));
+}
+
+.timer-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.timer-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.timer-digits {
+    display: block;
+    font-size: 3.4rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.timer-session {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-3);
+    margin-top: 4px;
+}
+
+.timer-modes {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-btn {
+    padding: 9px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-2);
+    font-family: var(--font);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--trans);
+}
+
+.mode-btn:hover {
+    border-color: var(--purple-lt);
+    color: var(--text);
+}
+
+.mode-btn.active {
+    background: rgba(124, 58, 237, 0.22);
+    border-color: var(--purple-lt);
+    color: var(--purple-lt);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* ── 15. MOOD TRACKER ──────────────────────────────────────── */
+.mood-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.mood-selector {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mood-emoji {
+    font-size: 2.1rem;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: var(--trans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mood-emoji:hover {
+    transform: scale(1.18);
+    border-color: var(--purple-lt);
+    background: rgba(124, 58, 237, 0.15);
+}
+
+.mood-emoji.selected {
+    border-color: var(--purple-lt);
+    background: rgba(124, 58, 237, 0.28);
+    transform: scale(1.22);
+    box-shadow: 0 0 22px var(--purple-glow);
+    animation: emojiPop 0.3s ease;
+}
+
+@keyframes emojiPop {
+    0% {
+        transform: scale(1);
+    }
+
+    60% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1.22);
+    }
+}
+
+.mood-selected {
+    color: var(--text-2);
+    font-size: 1.05rem;
+    min-height: 28px;
+}
+
+.mood-selected strong {
+    color: var(--purple-lt);
+}
+
+/* Optional mood comment textarea */
+.mood-comment-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+}
+
+.mood-comment-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.92rem;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+    transition: var(--trans);
+}
+
+.mood-comment-input:focus {
+    border-color: var(--purple-lt);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.mood-comment-input::placeholder {
+    color: var(--text-3);
+}
+
+.mood-comment-count {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.7rem;
+    color: var(--text-3);
+}
+
+/* Weekly Mood History */
+.mood-history {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.mood-week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.mood-week-header h3 {
+    font-size: 0.95rem;
+    color: var(--text-2);
+    font-weight: 500;
+}
+
+.mood-avg {
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mood-avg-label {
+    font-size: 0.7rem;
+    color: var(--text-3);
+}
+
+.mood-week {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Each day pill */
+.mood-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0.7rem 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    min-width: 60px;
+    transition: var(--trans);
+    cursor: default;
+    position: relative;
+}
+
+.mood-day.today {
+    border-color: var(--purple-lt);
+    background: rgba(124, 58, 237, 0.12);
+}
+
+.mood-day .day-label {
+    font-size: 0.65rem;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mood-day .day-emoji {
+    font-size: 1.45rem;
+}
+
+.mood-day .day-date {
+    font-size: 0.6rem;
+    color: var(--text-3);
+}
+
+/* Hover tooltip for day comment */
+.mood-day[data-comment]:hover::after {
+    content: attr(data-comment);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(14, 14, 38, 0.95);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    animation: tipFade 0.2s ease;
+}
+
+@keyframes tipFade {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Weekly mood average comment */
+.mood-avg-comment {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-2);
+    font-style: italic;
+    min-height: 20px;
+}
+
+/* ── 16. FOOTER ────────────────────────────────────────────── */
+.footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3.5rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-2);
+}
+
+.footer-emojis {
+    font-size: 1.3rem;
+    letter-spacing: 8px;
+    margin-bottom: 0.8rem;
+    opacity: 0.5;
+}
+
+.footer strong {
+    background: linear-gradient(135deg, var(--purple-lt), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-sub {
+    font-size: 0.82rem;
+    color: var(--text-3);
+    margin-top: 0.4rem;
+}
+
+/* ── 17. RESPONSIVE ────────────────────────────────────────── */
+@media (max-width:768px) {
+    html {
+        scroll-padding-top: 70px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .section {
+        padding: 100px 1.5rem 50px;
+    }
+
+    .card {
+        padding: 2rem 1.5rem;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(8, 8, 24, 0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .section-title {
+        font-size: 1.7rem;
+    }
+
+    .timer-digits {
+        font-size: 2.8rem;
+    }
+
+    .breathe-timing {
+        gap: 1rem;
+    }
+
+    .timer-display {
+        width: 220px;
+        height: 220px;
+    }
+
+    .mood-week-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width:480px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+
+    .breathe-circle-wrapper {
+        width: 185px;
+        height: 185px;
+    }
+
+    .timer-display {
+        width: 200px;
+        height: 200px;
+    }
+
+    .timer-digits {
+        font-size: 2.2rem;
+    }
+
+    .mood-emoji {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+
+    .float-emoji {
+        display: none;
+    }
+
+    /* hide on tiny screens */
+}
